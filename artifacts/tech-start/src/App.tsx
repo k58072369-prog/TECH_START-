@@ -15,7 +15,7 @@ import AiToolsSection from './components/AiToolsSection';
 import ArticleDetail from './components/ArticleDetail';
 import AdminDashboard from './components/AdminDashboard';
 import ToolDetail from './components/ToolDetail';
-import AudioPlayer from './components/AudioPlayer';
+import QuranModal from './components/QuranModal';
 import PrayerReminder from './components/PrayerReminder';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
 
@@ -27,6 +27,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [loadingArticle, setLoadingArticle] = useState(false);
   const [hasError, setHasError] = useState(false);
+
+  // Quran modal done → enables 100s prayer reminder countdown
+  const [quranDone, setQuranDone] = useState(false);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -232,11 +235,16 @@ export default function App() {
 
       <Footer onNavigate={handleNavigate} />
 
-      {/* Global floating overlays — not shown on admin */}
+      {/* Overlays — not shown on admin */}
       {!isAdminRoute && (
         <>
-          <AudioPlayer />
-          <PrayerReminder />
+          {/* Step 1: Quran modal on entry. onComplete starts the 100s timer. */}
+          <QuranModal onComplete={() => setQuranDone(true)} />
+
+          {/* Step 2: Prayer reminder fires 100s after Quran modal closes */}
+          <PrayerReminder enabled={quranDone} />
+
+          {/* PWA install prompt */}
           <PWAInstallPrompt />
         </>
       )}
