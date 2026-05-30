@@ -35,6 +35,11 @@ export function parseLocation(): RouteState {
     const slug = path.split('/category/')[1];
     return { path: 'category', slug };
   }
+
+  if (path.startsWith('/tool/')) {
+    const slug = path.split('/tool/')[1];
+    return { path: 'tool', slug };
+  }
   
   return { path: '404' };
 }
@@ -45,5 +50,6 @@ export function routeToUrl(state: RouteState): string {
   if (state.path === 'admin') return '/admin';
   if (state.path === 'article') return `/article/${state.slug}`;
   if (state.path === 'category') return `/category/${state.slug}`;
+  if (state.path === 'tool') return `/tool/${state.slug}`;
   return '/404';
 }

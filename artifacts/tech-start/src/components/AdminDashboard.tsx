@@ -632,14 +632,8 @@ export default function AdminDashboard() {
         setAuthError(resData.message || 'خطأ في التحقق من البيانات.');
       }
     } catch (err) {
-      console.error('Network check fallback to standard coder credentials admin/password...', err);
-      if (username === 'admin' && password === 'password') {
-        const dummyToken = 'tech-start-secure-admin-token-2026-dynamic-hash';
-        localStorage.setItem('tech_start_admin_token', dummyToken);
-        setToken(dummyToken);
-      } else {
-        setAuthError('البيانات المدخلة للمسؤول غير صحيحة.');
-      }
+      console.error('Admin login network error:', err);
+      setAuthError('تعذر الاتصال بخادم المصادقة. يرجى التأكد من تشغيل الخادم والمحاولة مجدداً.');
     } finally {
       setLoggingIn(false);
     }
