@@ -769,7 +769,11 @@ export default function AdminDashboard() {
 
     addToRecycleBin('article', art.title, art, reasonValue);
     
-    // Dissociate from active state
+    // Persist deletion to database, then update local state
+    const deleted = await deleteArticle(id);
+    if (!deleted) {
+      alert('تعذر حذف المقال من قاعدة البيانات. تم نقله للسلة مؤقتاً.');
+    }
     setArticles(prev => prev.filter(a => a.id !== id));
     logOperation('حذف مقالة تقنية', `تم نقل المقال "${art.title}" إلى سلة المحذوفات بنجاح.`, 'warning');
   };
@@ -835,11 +839,19 @@ export default function AdminDashboard() {
     if (reasonValue === null) return;
 
     addToRecycleBin('category', cat.name, cat, reasonValue);
+
+    // Persist category deletion to database
+    const catDeleted = await deleteCategory(id);
+    if (!catDeleted) {
+      alert('تعذر حذف القسم من قاعدة البيانات. تم نقله للسلة مؤقتاً.');
+    }
     
     if (linkedArticles.length > 0) {
       linkedArticles.forEach(la => {
         addToRecycleBin('article', la.title, la, `حذف القسم التابع له: ${cat.name}`);
       });
+      // Persist linked article deletions
+      await Promise.all(linkedArticles.map(la => deleteArticle(la.id)));
       setArticles(prev => prev.filter(art => art.category_id !== id));
     }
 

@@ -14,6 +14,7 @@ interface LatestArticlesProps {
   articles: Article[];
   categories: Category[];
   onNavigate: (route: RouteState) => void;
+  initialCategory?: string;
 }
 
 function calculateReadingTime(content: string = ''): number {
@@ -22,10 +23,15 @@ function calculateReadingTime(content: string = ''): number {
   return time < 1 ? 1 : time;
 }
 
-export default function LatestArticles({ articles, categories, onNavigate }: LatestArticlesProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+export default function LatestArticles({ articles, categories, onNavigate, initialCategory }: LatestArticlesProps) {
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortPref, setSortPref] = useState<'newest' | 'views'>('newest');
+
+  // Sync filter when navigating to a different category route
+  useEffect(() => {
+    if (initialCategory) setSelectedCategory(initialCategory);
+  }, [initialCategory]);
 
   useEffect(() => {
     // Read sorting from homepage custom settings if any

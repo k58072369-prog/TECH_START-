@@ -195,6 +195,7 @@ export default function App() {
                       articles={articles}
                       categories={categories}
                       onNavigate={handleNavigate}
+                      initialCategory={route.slug}
                     />
                   </div>
                 </div>
