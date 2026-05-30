@@ -257,7 +257,7 @@ export default function AiToolsSection({ onNavigate }: AiToolsSectionProps) {
                           {tool.name}
                         </h3>
                         {tool.featured && (
-                          <Star className="h-4 w-4 text-blue-500 fill-blue-500 ml-1 shrink-0" title="أداة مميزة" />
+                          <Star className="h-4 w-4 text-blue-500 fill-blue-500 ml-1 shrink-0" aria-label="أداة مميزة" />
                         )}
                         {tool.badge && (
                           <span className="px-2 py-0.5 text-[9px] font-bold rounded-md bg-blue-50 border border-blue-100 text-blue-700 font-sans">

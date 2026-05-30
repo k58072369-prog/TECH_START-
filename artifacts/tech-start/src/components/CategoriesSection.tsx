@@ -79,7 +79,6 @@ export default function CategoriesSection({ categories, onNavigate }: Categories
                 <div 
                   className="absolute inset-0 z-0 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity bg-cover bg-center" 
                   style={{ backgroundImage: `url(${cat.image})` }}
-                  referrerPolicy="no-referrer"
                 />
               )}
 
