@@ -1,0 +1,29 @@
+{
+  "name": "تيك ستارت | بوابة الذكاء الاصطناعي والبرمجة",
+  "short_name": "تيك ستارت",
+  "description": "المنصة التقنية العربية الأولى لأدوات الذكاء الاصطناعي والمقالات البرمجية",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f8fafc",
+  "theme_color": "#1d4ed8",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["education", "technology", "news"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/opengraph.jpg",
+      "type": "image/jpeg",
+      "sizes": "1200x630"
+    }
+  ],
+  "screenshots": [],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

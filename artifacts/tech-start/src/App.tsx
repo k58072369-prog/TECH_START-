@@ -15,6 +15,9 @@ import AiToolsSection from './components/AiToolsSection';
 import ArticleDetail from './components/ArticleDetail';
 import AdminDashboard from './components/AdminDashboard';
 import ToolDetail from './components/ToolDetail';
+import AudioPlayer from './components/AudioPlayer';
+import PrayerReminder from './components/PrayerReminder';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 
 export default function App() {
   const [route, setRoute] = useState<RouteState>(parseLocation());
@@ -94,13 +97,15 @@ export default function App() {
     }
   };
 
+  const isAdminRoute = route.path === 'admin';
+
   return (
     <div className="min-h-screen bg-[#f8fafc] text-[#0f172a] flex flex-col justify-between selection:bg-blue-500/10 selection:text-blue-900">
       <Navbar currentRoute={route} onNavigate={handleNavigate} />
 
       <main className="flex-grow">
         <AnimatePresence mode="wait">
-          {loading && route.path !== 'admin' ? (
+          {loading && !isAdminRoute ? (
             <motion.div
               key="loader"
               initial={{ opacity: 0 }}
@@ -225,6 +230,15 @@ export default function App() {
       </main>
 
       <Footer onNavigate={handleNavigate} />
+
+      {/* Global floating overlays — not shown on admin */}
+      {!isAdminRoute && (
+        <>
+          <AudioPlayer />
+          <PrayerReminder />
+          <PWAInstallPrompt />
+        </>
+      )}
     </div>
   );
 }
