@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "تيك ستارت"
+version = "1.0.0"
+id = "artifacts/tech-start"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24936
+
+[services.development]
+run = "pnpm --filter @workspace/tech-start run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/tech-start", "run", "build" ]
+publicDir = "artifacts/tech-start/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24936"
+BASE_PATH = "/"
