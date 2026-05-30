@@ -60,11 +60,38 @@ import { AI_TOOLS } from '../data/aiTools';
 import SmartImage from './SmartImage';
 
 export default function AdminDashboard() {
-  const [token, setToken] = useState<string | null>(localStorage.getItem('tech_start_admin_token'));
+  const [token, setToken] = useState<string | null>(null);
+  const [verifying, setVerifying] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
+
+  // Verify stored token with server on mount — never trust localStorage alone
+  useEffect(() => {
+    const stored = localStorage.getItem('tech_start_admin_token');
+    if (!stored) {
+      setVerifying(false);
+      return;
+    }
+    fetch('/api/admin/verify', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${stored}` }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.authenticated) {
+          setToken(stored);
+        } else {
+          localStorage.removeItem('tech_start_admin_token');
+        }
+      })
+      .catch(() => {
+        // Network error — clear token, force re-login
+        localStorage.removeItem('tech_start_admin_token');
+      })
+      .finally(() => setVerifying(false));
+  }, []);
 
   // States for content
   const [articles, setArticles] = useState<Article[]>([]);
@@ -1226,6 +1253,20 @@ export default function AdminDashboard() {
   const featuredCount = articles.filter(a => a.featured).length;
 
   // --- RENDER LOGIN VIEW IF NOT LOGGED IN ---
+  if (verifying) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative h-12 w-12">
+            <div className="absolute inset-0 rounded-full border-4 border-blue-600/10" />
+            <div className="absolute inset-0 rounded-full border-4 border-blue-600 border-t-transparent animate-spin" />
+          </div>
+          <p className="text-xs text-slate-400 font-mono tracking-widest">جاري التحقق من الجلسة...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!token) {
     return (
       <div id="admin-auth" className="min-h-screen pt-36 pb-16 flex items-center justify-center max-w-7xl mx-auto px-4 relative bg-gradient-to-b from-[#f8fafc] to-blue-50/20 text-right">
