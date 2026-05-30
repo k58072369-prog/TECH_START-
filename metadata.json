@@ -1,0 +1,6 @@
+{
+  "name": "Tech Start",
+  "description": "منصة عربية رائدة لتقنيات الذكاء الاصطناعي، البرمجة، والأدوات التقنية الحديثة",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
