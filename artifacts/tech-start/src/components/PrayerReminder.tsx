@@ -2,7 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Star, Play, Pause } from 'lucide-react';
 
-const SALAH_AUDIO_SRC = '/audio/salah-reminder.mp3';
+const DEFAULT_SALAH_SRC = '/audio/salah-reminder.mp3';
+const getSalahSrc = () =>
+  localStorage.getItem('tech_start_prayer_audio_src') || DEFAULT_SALAH_SRC;
 const SHOWN_KEY = 'tech_start_prayer_shown_session';
 const DELAY_MS = 100_000; // 100 seconds after Quran modal closes
 
@@ -26,7 +28,7 @@ export default function PrayerReminder({ enabled }: PrayerReminderProps) {
       setVisible(true);
       sessionStorage.setItem(SHOWN_KEY, '1');
 
-      const audio = new Audio(SALAH_AUDIO_SRC);
+      const audio = new Audio(getSalahSrc());
       audio.volume = 0.75;
       audioRef.current = audio;
 
