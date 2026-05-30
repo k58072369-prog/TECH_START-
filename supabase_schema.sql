@@ -43,10 +43,5 @@ CREATE POLICY "Allow all access to categories with service role" ON categories
 CREATE POLICY "Allow all access to articles with service role" ON articles
     FOR ALL USING (true) WITH CHECK (true);
 
--- Insert Mock/Initial Categories
-INSERT INTO categories (name, image) VALUES
-('الذكاء الاصطناعي', 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=800'),
-('البرمجة', 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800'),
-('الأدوات التقنية', 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800'),
-('الشروحات', 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800')
-ON CONFLICT (name) DO NOTHING;
+-- SQL Schema for TECH START Platform ready for clean deployment without mock data or sample categories
+
