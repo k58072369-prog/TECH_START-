@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { randomBytes } from "crypto";
 import { logger } from "../lib/logger";
 
@@ -18,7 +18,7 @@ if (!ADMIN_USER || !ADMIN_PASS) {
 // Generate a random, unguessable session token at startup — never a static string.
 const SESSION_TOKEN = randomBytes(48).toString("hex");
 
-router.post("/admin/login", (req, res) => {
+router.post("/admin/login", (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -53,7 +53,7 @@ router.post("/admin/login", (req, res) => {
   }
 });
 
-router.post("/admin/verify", (req, res) => {
+router.post("/admin/verify", (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(" ")[1];
 
